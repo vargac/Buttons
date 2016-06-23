@@ -16,15 +16,15 @@ void Button::update()
 {
     uint8_t actual_state = digitalRead(_pin);
     if (actual_state) {
-        if (p_pushed != NULL) (*p_pushed)();
         if (!last_state) {
             if (p_onPush != NULL) (*p_onPush)();
         }
+        if (p_pushed != NULL) (*p_pushed)();
     } else {
-        if (p_released != NULL) (*p_released)();
         if (last_state) {
             if (p_onRelease != NULL) (*p_onRelease)();
         }
+        if (p_released != NULL) (*p_released)();
     }
     last_state = actual_state;
 }
