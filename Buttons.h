@@ -6,7 +6,7 @@
 class Button
 {
     public:
-        Button(uint8_t pin);
+        Button(uint8_t pin, bool inverse=false);
         void update();
         void set_onPush(void (*onPush)());
         void set_onRelease(void (*onRelease)());
@@ -16,6 +16,7 @@ class Button
     private:
         uint8_t _pin;
         uint8_t last_state;
+        bool inv;
         void (*p_onPush)();
         void (*p_onRelease)();
         void (*p_pushed)();

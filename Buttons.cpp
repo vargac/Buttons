@@ -1,10 +1,11 @@
 #include "Buttons.h"
 
-Button::Button(uint8_t pin)
+Button::Button(uint8_t pin, bool inverse)
 {
     _pin = pin;
     pinMode(_pin, INPUT);
     last_state = digitalRead(_pin);
+    inv = inverse;
 
     p_onPush = NULL;
     p_onRelease = NULL;
@@ -14,7 +15,7 @@ Button::Button(uint8_t pin)
 
 void Button::update()
 {
-    uint8_t actual_state = digitalRead(_pin);
+    uint8_t actual_state = inv ? !digitalRead(_pin) : digitalRead(_pin);
     if (actual_state) {
         if (!last_state) {
             if (p_onPush != NULL) (*p_onPush)();
@@ -31,7 +32,7 @@ void Button::update()
 
 uint8_t Button::read()
 {
-    return digitalRead(_pin);
+    return inv ? !digitalRead(_pin) : digitalRead(_pin);
 }
 
 void Button::set_onPush(void (*onPush)())
